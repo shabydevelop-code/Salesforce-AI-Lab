@@ -1,80 +1,71 @@
-# Salesforce AI Lab — Data Import
+# Salesforce Import — Commands & Troubleshooting
 
-## Overview
+Quick reference for running the import tools and resolving errors encountered on Windows. This file is **not** a project status report or a description of the current implementation. Check the actual script and CLI help for supported options.
 
-This directory contains sample Salesforce data and the Python import script.
+## PowerShell commands
 
-- 100 Accounts
-- 100 Contacts
-- 100 Leads
-- 100 Opportunities
-
-## Requirements
-
-- Python 3
-- Salesforce CLI (`sf`)
-- An authenticated Salesforce org with permissions for the four objects
-- Windows supported (the script resolves `sf.cmd`)
-
-## Usage
-
-From the repository root, run a read-only dry run:
+Run from the repository root:
 
 ```powershell
+cd C:\yossi\ChatGpt\Salesforce-AI-Lab
 python Import\Scripts\import_all.py --target-org SalesforceDev
 ```
 
-To write records after reviewing the dry-run results:
+The command above runs in dry-run mode (no writes). To perform an import **only after reviewing the target org and dry-run output**:
 
 ```powershell
 python Import\Scripts\import_all.py --target-org SalesforceDev --apply
 ```
 
-Replace `SalesforceDev` with the alias of the intended target org. Confirm the org identity before using `--apply`.
+Check the Salesforce CLI connection and org identity:
 
-## Import sequence and relationships
+```powershell
+sf org display --target-org SalesforceDev
+```
 
-The script processes Accounts, Contacts, Leads, and Opportunities. Contacts and Opportunities must be linked to Accounts in the **target** org; Salesforce record IDs from a different org must not be reused. The dataset uses AccountNumber as a stable Account reference.
-
-The script attempts to detect existing records to avoid duplicates. Review matching rules and target-org validation before writing, especially in an org containing unrelated data.
-
-## Troubleshooting
-
-### WinError 2 on Windows
-
-Calling `sf` via Python `subprocess.run(..., shell=False)` may fail because the installed executable is `sf.cmd`. Resolve it using `shutil.which('sf.cmd') or shutil.which('sf')`, and keep `shell=False`.
-
-### HTTP 401 INVALID_AUTH_HEADER
-
-`sf org display --json` may return a masked `accessToken`. The script retrieves the usable token via `sf org auth show-access-token --target-org <alias> --json`. Do not print or commit access tokens.
-
-### IndentationError after editing Python from PowerShell
-
-PowerShell string replacement can introduce incorrect Python indentation. Run:
+Validate Python syntax after editing:
 
 ```powershell
 python -m py_compile Import\Scripts\import_all.py
 ```
 
-before retrying the import.
+## Errors encountered and fixes
 
-### CSV and Salesforce field validation
+### `[WinError 2] The system cannot find the file specified`
 
-During the original import, CSV quoting/line endings caused Bulk API parsing failures. Generating CSVs with Python's `csv` module and CRLF line endings resolved those failures. The `BillingState` field also contained values rejected by the target org's restricted state/country picklist; the import data was adjusted accordingly.
+When Python invokes Salesforce CLI through `subprocess.run(..., shell=False)`, Windows may not resolve `sf` as an executable even though PowerShell does.
 
-## Verified behavior
+Check the executable:
 
-A dry run against the original development org completed successfully:
+```powershell
+Get-Command sf -All
+python -c "import shutil; print(shutil.which('sf.cmd'))"
+```
 
-| Object | Existing | To create |
-| --- | ---: | ---: |
-| Account | 100 | 0 |
-| Contact | 100 | 0 |
-| Lead | 100 | 0 |
-| Opportunity | 100 | 0 |
+Use the resolved CLI executable in Python, e.g. `shutil.which('sf.cmd') or shutil.which('sf')`, rather than assuming `sf` will launch directly.
 
-No records were modified. A full import into a separate empty org has **not** yet been validated.
+### `HTTP 401: INVALID_AUTH_HEADER`
 
-## Security
+`sf org display --json` can return a masked access token rather than a usable token. Retrieve the token programmatically using `sf org auth show-access-token --target-org <alias> --json` and pass it in the HTTP `Authorization: Bearer <token>` header. Never print, log, or commit tokens.
 
-Never commit Salesforce access tokens, credentials, CLI authentication files, or sensitive output to Git. Keep authentication and org selection external to the dataset.
+### `IndentationError: unexpected indent`
+
+PowerShell text replacement can accidentally duplicate or remove Python indentation. Preserve the surrounding block indentation; then run `python -m py_compile` before execution. Avoid repeated blind string replacements.
+
+### Salesforce CSV / Bulk API parsing errors
+
+For CSV generation, use Python's `csv` module with consistent quoting and CRLF line endings where required by the import method. Avoid relying on PowerShell CSV output if the receiving API rejects its format.
+
+### Invalid `BillingState` value
+
+Salesforce orgs with restricted state/country picklists may reject free-text state values. Check the target org's permitted values; map to valid values or omit the field if it is optional.
+
+## Git workflow
+
+Changes are committed directly to `main` on GitHub. Update the Windows checkout using:
+
+```powershell
+git pull --ff-only origin main
+```
+
+If Git reports local changes or untracked-file conflicts, inspect them before pulling. Do not force-reset or overwrite local files.
