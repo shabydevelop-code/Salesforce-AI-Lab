@@ -45,4 +45,15 @@ When guiding the user through Salesforce screens, menus, buttons, settings, or n
 - Keep technical identifiers, API names, CLI commands, and source-code symbols in their original language.
 - Prefer navigation instructions matching the user's current Salesforce UI over generic English documentation paths.
 
+## Lightning App Deployment and Access — Mandatory Verification
+
+- Deploying a `CustomApplication` does **not** by itself establish that a user's profile can access the app. Verify **User Profiles / Selected Profiles** in the Lightning App Manager or the equivalent supported profile `applicationVisibilities` metadata.
+- `AppMenuItem.IsVisible = true` confirms app-menu visibility metadata, **not** effective access for a particular user.
+- Verify both app presence and access: open it as the target user and confirm its Home page renders. For an unpackaged custom Lightning app, test the name-based route `/lightning/app/c__<DeveloperName>`; do not assume the `CustomApplication` record ID is a valid route.
+- Before changing permissions, distinguish a malformed app URL from an app access failure. Check the actual app's **User Profiles** selection and the route first.
+- A Permission Set assignment is not a substitute for verifying the app's effective profile access. Do not create permission sets speculatively.
+- Prefer targeted, supported Metadata API changes when automating profile app visibility. A profile retrieval may omit `applicationVisibilities` when relevant metadata was not included in the retrieve; absence in a partial retrieval is not proof of denial. Avoid deploying an entire retrieved profile because it can overwrite unrelated settings.
+- When a SOQL query fails with an unknown field or object, inspect the object's supported schema (describe/official API reference) instead of guessing field names. Metadata nested properties are not automatically queryable SOQL columns.
+- Keep these checks part of future app deployment verification; do not treat a successful validation/deploy as proof of user accessibility.
+
 This document records stable architecture and collaboration rules, not implementation status or release progress.
