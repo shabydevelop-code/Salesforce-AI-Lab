@@ -1,6 +1,7 @@
 """Independent CRM object import, using the same safety rules as import_all.py."""
 import argparse
-from import_all import Salesforce, load, lookup, single, clean, norm, fail
+from salesforce_client import Salesforce, fail
+from import_common import load, lookup, single, clean, norm
 
 CONFIG = {
     'Account': ('Accounts.csv', 'AccountNumber'),
