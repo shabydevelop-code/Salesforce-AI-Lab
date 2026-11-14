@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <FlexiPage xmlns="http://soap.sforce.com/2006/04/metadata">
-    <description>Service representative workspace. Phase one: recently viewed Accounts. Additional standard components require validation before deployment.</description>
+    <description>Service representative workspace. Service representative workspace: recently viewed Accounts, Leads, and Cases. Owner-filtered lists and Tasks are not yet configured.</description>
     <flexiPageRegions>
         <itemInstances>
             <componentInstance>
@@ -18,6 +18,42 @@
                 </componentInstanceProperties>
                 <componentName>flexipage:recentItems</componentName>
                 <identifier>recentAccounts</identifier>
+            </componentInstance>
+        </itemInstances>
+        <itemInstances>
+            <componentInstance>
+                <componentInstanceProperties>
+                    <name>entityNames</name>
+                    <valueList>
+                        <valueListItems>
+                            <value>Lead</value>
+                        </valueListItems>
+                    </valueList>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>maxRecords</name>
+                    <value>10</value>
+                </componentInstanceProperties>
+                <componentName>flexipage:recentItems</componentName>
+                <identifier>recentLeads</identifier>
+            </componentInstance>
+        </itemInstances>
+        <itemInstances>
+            <componentInstance>
+                <componentInstanceProperties>
+                    <name>entityNames</name>
+                    <valueList>
+                        <valueListItems>
+                            <value>Case</value>
+                        </valueListItems>
+                    </valueList>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>maxRecords</name>
+                    <value>10</value>
+                </componentInstanceProperties>
+                <componentName>flexipage:recentItems</componentName>
+                <identifier>recentCases</identifier>
             </componentInstance>
         </itemInstances>
         <name>bottomLeft</name>
