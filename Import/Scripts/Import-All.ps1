@@ -6,7 +6,9 @@ param(
     [ValidateNotNullOrEmpty()]
     [string]$TargetOrg,
 
-    [switch]$Apply
+    [switch]$Apply,
+
+    [switch]$AllowAccountDuplicates
 )
 
 $ErrorActionPreference = 'Stop'
@@ -36,7 +38,12 @@ try {
         }
 
         Write-Host "Running $script for org $TargetOrg..."
-        & python $scriptPath --target-org $TargetOrg --apply
+        if ($script -eq 'import_accounts.py' -and $AllowAccountDuplicates) {
+            & python $scriptPath --target-org $TargetOrg --apply --allow-account-duplicates
+        }
+        else {
+            & python $scriptPath --target-org $TargetOrg --apply
+        }
         if ($LASTEXITCODE -ne 0) {
             throw "$script failed (exit code $LASTEXITCODE). Remaining imports were not started."
         }
