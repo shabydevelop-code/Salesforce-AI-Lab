@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <FlexiPage xmlns="http://soap.sforce.com/2006/04/metadata">
-    <description>Service representative home with standard list view cards: MyAccounts, Service_My_Leads, and MyOpenCases in two columns. Tasks are not yet configured.</description>
+    <description>Service representative home with standard list view cards: MyAccounts, Service_My_Leads, and MyOpenCases across three native desktop regions (left, right, sidebar). Tasks are not yet configured.</description>
     <flexiPageRegions>
-<itemInstances>
+        <itemInstances>
             <componentInstance>
                 <componentInstanceProperties><name>entityName</name><value>Account</value></componentInstanceProperties>
                 <componentInstanceProperties><name>filterName</name><value>MyAccounts</value></componentInstanceProperties>
@@ -10,19 +10,11 @@
                 <identifier>recentAccounts</identifier>
             </componentInstance>
         </itemInstances>
-<itemInstances>
-            <componentInstance>
-                <componentInstanceProperties><name>entityName</name><value>Case</value></componentInstanceProperties>
-                <componentInstanceProperties><name>filterName</name><value>MyOpenCases</value></componentInstanceProperties>
-                <componentName>flexipage:filterListCard</componentName>
-                <identifier>recentCases</identifier>
-            </componentInstance>
-        </itemInstances>
         <name>bottomLeft</name>
         <type>Region</type>
     </flexiPageRegions>
     <flexiPageRegions>
-<itemInstances>
+        <itemInstances>
             <componentInstance>
                 <componentInstanceProperties><name>entityName</name><value>Lead</value></componentInstanceProperties>
                 <componentInstanceProperties><name>filterName</name><value>Service_My_Leads</value></componentInstanceProperties>
@@ -31,6 +23,18 @@
             </componentInstance>
         </itemInstances>
         <name>bottomRight</name>
+        <type>Region</type>
+    </flexiPageRegions>
+    <flexiPageRegions>
+        <itemInstances>
+            <componentInstance>
+                <componentInstanceProperties><name>entityName</name><value>Case</value></componentInstanceProperties>
+                <componentInstanceProperties><name>filterName</name><value>MyOpenCases</value></componentInstanceProperties>
+                <componentName>flexipage:filterListCard</componentName>
+                <identifier>recentCases</identifier>
+            </componentInstance>
+        </itemInstances>
+        <name>sidebar</name>
         <type>Region</type>
     </flexiPageRegions>
     <masterLabel>דף הבית לנציג שירות</masterLabel>
