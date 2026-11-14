@@ -16,9 +16,13 @@ def run(kind):
     parser.add_argument('--apply', action='store_true')
     parser.add_argument('--allow-account-duplicates', action='store_true',
                         help='Allow Salesforce duplicate-rule warnings only for LAB- Accounts')
+    parser.add_argument('--allow-lead-duplicates', action='store_true',
+                        help='Allow Salesforce duplicate-rule warnings for synthetic example.com Leads')
     args = parser.parse_args()
     if args.allow_account_duplicates and kind != 'Account':
         fail('--allow-account-duplicates is supported only for Account')
+    if args.allow_lead_duplicates and kind != 'Lead':
+        fail('--allow-lead-duplicates is supported only for Lead')
     filename, key = CONFIG[kind]
     rows = load(filename, key)
     sf = Salesforce(args.target_org)
@@ -78,6 +82,11 @@ def run(kind):
             values['Status'] = lead_status
         allow_duplicate = (kind == 'Account' and args.allow_account_duplicates
                            and row['AccountNumber'].startswith('LAB-'))
+        if kind == 'Lead' and args.allow_lead_duplicates:
+            if not (norm(row['Email']).endswith('@example.com') and
+                    row.get('Description', '').startswith('Synthetic demo lead ')):
+                fail(f'Lead {row[key]} is not marked as synthetic demo data; refusing duplicate override')
+            allow_duplicate = True
         sf.create(kind, values, allow_duplicate_save=allow_duplicate)
         created += 1
     print(f'Completed: created={created}, linked={linked}')
