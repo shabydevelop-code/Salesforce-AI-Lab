@@ -8,9 +8,9 @@ This file records reusable technical failure patterns, their evidence, and verif
 - **Observed error:** `Invalid property [value] in component [flexipage:richText]`.
 - **Evidence:** Salesforce deployment `0Afaj00000rb8rJCAQ` failed with `Components: 0/1`; no successful deployment was reported.
 - **Trigger:** A change added `flexipage:richText` component instances with a `componentInstanceProperties` entry named `value` to provide section headings.
-- **Cause:** The deployed component configuration does not accept the `value` property. The correct supported metadata representation has **not yet been established**; do not guess a replacement property.
+- **Cause:** The deployed component configuration does not accept the `value` property. Salesforce's official Metadata API guide shows the supported property name is `richTextValue` (not `value`) for `flexipage:richText`. Reference: https://resources.docs.salesforce.com/latest/latest/en-us/sfdc/pdf/api_meta.pdf
 - **Prevention:** Before introducing a standard Lightning component or property in FlexiPage XML, inspect a working retrieved FlexiPage example or authoritative metadata documentation for the target API version. Validate deployment before treating the change as successful. Do not assume UI component attributes are valid FlexiPage metadata properties.
-- **Resolution status:** **Unresolved / unverified**. A corrected page must pass validation/deployment before this entry is updated.
+- **Resolution status:** **Source corrected; deployment unverified**. Commit `7b2d335` replaces three incorrect `value` property names with `richTextValue`. Await successful validation/deployment before marking resolved.
 
 ## General rules
 
