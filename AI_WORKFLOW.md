@@ -15,3 +15,10 @@
 
 - Keep this file focused on stable operating rules, not a running project status, implementation backlog, or speculative description of current code.
 - Record reusable technical execution instructions or known pitfalls in dedicated documentation when warranted; verify them against the actual repository first.
+
+## Chat language and direction
+
+- All assistant responses in the Salesforce-AI-Lab project chat must be written in Hebrew, right-to-left (RTL).
+- Apply RTL consistently to explanations, headings, lists, and tables wherever the chat interface supports it.
+- Preserve technical identifiers, file paths, commands, code, and Salesforce/API field names in their original left-to-right (LTR) form to avoid corrupting syntax.
+- When Hebrew and English appear together, format them for clear RTL reading without changing the literal technical text.
