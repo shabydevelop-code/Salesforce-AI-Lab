@@ -22,3 +22,10 @@ This document describes a durable engineering principle, not project progress, c
 - Run an appropriate validation or deployment check, inspect the actual error output, and correct the root cause before calling the change complete.
 - Distinguish a successful deployment from visual or functional acceptance; verify the relevant behavior separately when needed.
 - Turn recurring failure patterns into reusable working rules here rather than maintaining a running log of one-off errors or project progress.
+
+## Salesforce Bulk CSV encoding
+
+- Export CSV files for Salesforce Bulk API as **UTF-8 without BOM**. A UTF-8 BOM at the beginning of the file can be interpreted as part of the first field name (for example, `\uFEFFSubject` rather than `Subject`), causing `InvalidBatch: Field name not found`.
+- Before a bulk import, inspect the first header field and verify that it contains no leading U+FEFF character; also validate row count and expected column names.
+- For PowerShell file generation, explicitly use a BOM-free UTF-8 encoding (for example, `[System.Text.UTF8Encoding]::new($false)`) rather than assuming the default encoding.
+- If an ingest job fails, inspect its result and verify whether any records were inserted before retrying, to avoid duplicates.
