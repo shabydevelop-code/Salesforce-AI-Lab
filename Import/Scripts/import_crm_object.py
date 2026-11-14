@@ -14,7 +14,11 @@ def run(kind):
     parser = argparse.ArgumentParser(description=f'Import {kind} records into Salesforce')
     parser.add_argument('--target-org', required=True)
     parser.add_argument('--apply', action='store_true')
+    parser.add_argument('--allow-account-duplicates', action='store_true',
+                        help='Allow Salesforce duplicate-rule warnings only for LAB- Accounts')
     args = parser.parse_args()
+    if args.allow_account_duplicates and kind != 'Account':
+        fail('--allow-account-duplicates is supported only for Account')
     filename, key = CONFIG[kind]
     rows = load(filename, key)
     sf = Salesforce(args.target_org)
@@ -72,7 +76,9 @@ def run(kind):
             values['AccountId'] = account_ids[norm(row['AccountNumber'])]
         if kind == 'Lead' and lead_status:
             values['Status'] = lead_status
-        sf.create(kind, values)
+        allow_duplicate = (kind == 'Account' and args.allow_account_duplicates
+                           and row['AccountNumber'].startswith('LAB-'))
+        sf.create(kind, values, allow_duplicate_save=allow_duplicate)
         created += 1
     print(f'Completed: created={created}, linked={linked}')
 
