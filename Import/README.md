@@ -69,3 +69,30 @@ git pull --ff-only origin main
 ```
 
 If Git reports local changes or untracked-file conflicts, inspect them before pulling. Do not force-reset or overwrite local files.
+
+## Modular import commands
+
+`salesforce_client.py` contains the shared Salesforce CLI and REST/SOQL client. The existing `import_all.py` remains backward-compatible and imports the four CRM objects only (not Users). Individual object importers share `import_crm_object.py`.
+
+```powershell
+python Import\Scripts\import_accounts.py --target-org SalesforceDev
+python Import\Scripts\import_contacts.py --target-org SalesforceDev
+python Import\Scripts\import_leads.py --target-org SalesforceDev
+python Import\Scripts\import_opportunities.py --target-org SalesforceDev
+```
+
+Append `--apply` only after reviewing the dry run. Import Accounts before Contacts and Opportunities. The CRM datasets are expected to have 100 rows per CSV.
+
+### Users for Task Assigned To > People
+
+Create `Import/Data/Users.csv` based on the committed `Users.example.csv` header. Required fields: `Username`, `Email`, `LastName`, `Alias`; `FirstName` is optional. Usernames must be globally unique across Salesforce orgs. Do not put passwords in the CSV.
+
+First select a valid Profile ID in the **target** development org:
+
+```powershell
+sf data query --target-org SalesforceDev --query "SELECT Id, Name FROM Profile ORDER BY Name"
+python Import\Scripts\import_users.py --target-org SalesforceDev --profile-id PROFILE_ID
+python Import\Scripts\import_users.py --target-org SalesforceDev --profile-id PROFILE_ID --apply
+```
+
+The importer does not guess a Profile or license, does not overwrite existing Users, rejects mismatched or inactive existing Users, and defaults to dry run. Salesforce Developer Edition still enforces its own User limits. User creation may trigger Salesforce email notifications. Existing `import_all.py` does not invoke this importer because it requires explicit Profile selection.
