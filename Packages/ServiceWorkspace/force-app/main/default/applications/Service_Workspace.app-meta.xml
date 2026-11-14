@@ -9,7 +9,7 @@
     </actionOverrides>
     <description>Service representative Lightning application with an app-scoped Home page.</description>
     <formFactors>Large</formFactors>
-    <label>סביבת עבודה לשירות</label>
+    <label>Service Workspace</label>
     <navType>Standard</navType>
     <tabs>standard-home</tabs>
     <tabs>standard-Account</tabs>
