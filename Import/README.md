@@ -72,7 +72,7 @@ If Git reports local changes or untracked-file conflicts, inspect them before pu
 
 ## Modular import commands
 
-`salesforce_client.py` contains the shared Salesforce CLI and REST/SOQL client. Each CRM object has an independent importer; they share `import_crm_object.py` and `import_common.py`. There is no combined importer. Users require explicit Profile selection.
+`salesforce_client.py` contains the shared Salesforce CLI and REST/SOQL client. Each CRM object has an independent importer; they share `import_crm_object.py` and `import_common.py`. The four CRM importers can also be run together through `Import/Scripts/Import-All.ps1`.
 
 ```powershell
 python Import\Scripts\import_accounts.py --target-org SalesforceDev
@@ -82,20 +82,6 @@ python Import\Scripts\import_opportunities.py --target-org SalesforceDev
 ```
 
 Append `--apply` only after reviewing the dry run. Import Accounts before Contacts and Opportunities. The CRM datasets are expected to have 100 rows per CSV.
-
-### Users for Task Assigned To > People
-
-Create `Import/Data/Users.csv` based on the committed `Import/Templates/Users.example.csv` header. Required fields: `Username`, `Email`, `LastName`, `Alias`, `CommunityNickname`; `FirstName` is optional. Usernames must be globally unique across Salesforce orgs. Do not put passwords in the CSV.
-
-First select a valid Profile ID in the **target** development org:
-
-```powershell
-sf data query --target-org SalesforceDev --query "SELECT Id, Name FROM Profile ORDER BY Name"
-python Import\Scripts\import_users.py --target-org SalesforceDev --profile-id PROFILE_ID
-python Import\Scripts\import_users.py --target-org SalesforceDev --profile-id PROFILE_ID --apply
-```
-
-The importer does not guess a Profile or license, does not overwrite existing Users, rejects mismatched or inactive existing Users, and defaults to dry run. Salesforce Developer Edition still enforces its own User limits. User creation may trigger Salesforce email notifications. User import is separate because it requires explicit Profile selection.
 
 ## Resetting the existing CRM demo dataset
 
@@ -117,16 +103,6 @@ python Import\Scripts\import_opportunities.py --target-org SalesforceDev --apply
 ```
 
 Re-run each importer without `--apply` to verify all 100 source keys already exist. Do not begin new object imports until the reset and verification are complete.
-
-## Validate User schema and available licenses
-
-Run the read-only inspector before creating Users:
-
-```powershell
-python Import\Tools\inspect_users_schema.py --target-org SalesforceDev
-```
-
-The User importer checks CSV fields against the live User object description, validates picklist values and lengths, and checks available licenses for the selected Profile before creating active Users. Salesforce may still apply additional org-specific rules. The CSV template is a header-only example; no User records have been generated or imported. Do not run User import before selecting the intended Profile and preparing real or synthetic data with suitable email addresses.
 
 ## Script placement
 
