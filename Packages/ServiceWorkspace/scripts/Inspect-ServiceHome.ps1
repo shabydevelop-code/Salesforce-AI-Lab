@@ -25,4 +25,8 @@ $apps | Where-Object {
     $_.fullName -match 'Service|Console|standard__Service'
 } | Select-Object fullName, fileName | Format-Table -AutoSize
 Write-Host "Total applications in org: $($apps.Count)"
+Write-Host '=== All FlexiPages (name and type discovery) ==='
+$pages | Select-Object fullName, fileName | Format-Table -AutoSize
+Write-Host '=== Service application metadata ==='
+$apps | Where-Object { $_.fullName -eq 'standard__Service' } | Format-List fullName, fileName, namespacePrefix
 Write-Host 'Read-only inspection complete. No metadata was changed.'
