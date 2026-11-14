@@ -1,0 +1,9 @@
+<aura:component controller="IvrAccountLookupController" implements="lightning:isUrlAddressable,flexipage:availableForAllPageTypes" access="global">
+    <aura:attribute name="pageReference" type="Object"/>
+    <aura:attribute name="message" type="String" default="Looking up account..."/>
+    <aura:handler name="init" value="{!this}" action="{!c.resolve}"/>
+    <aura:handler name="change" value="{!v.pageReference}" action="{!c.resolve}"/>
+    <lightning:card title="Account Redirect">
+        <div class="slds-p-around_medium">{!v.message}</div>
+    </lightning:card>
+</aura:component>
