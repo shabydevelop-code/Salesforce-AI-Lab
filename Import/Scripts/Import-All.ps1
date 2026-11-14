@@ -8,7 +8,9 @@ param(
 
     [switch]$Apply,
 
-    [switch]$AllowAccountDuplicates
+    [switch]$AllowAccountDuplicates,
+
+    [switch]$AllowLeadDuplicates
 )
 
 $ErrorActionPreference = 'Stop'
@@ -40,6 +42,9 @@ try {
         Write-Host "Running $script for org $TargetOrg..."
         if ($script -eq 'import_accounts.py' -and $AllowAccountDuplicates) {
             & python $scriptPath --target-org $TargetOrg --apply --allow-account-duplicates
+        }
+        elseif ($script -eq 'import_leads.py' -and $AllowLeadDuplicates) {
+            & python $scriptPath --target-org $TargetOrg --apply --allow-lead-duplicates
         }
         else {
             & python $scriptPath --target-org $TargetOrg --apply
