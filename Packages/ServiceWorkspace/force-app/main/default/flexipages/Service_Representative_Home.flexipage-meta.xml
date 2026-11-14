@@ -5,7 +5,7 @@
         <itemInstances>
             <componentInstance>
                 <componentInstanceProperties>
-                    <name>value</name>
+                    <name>richTextValue</name>
                     <value>&lt;h2&gt;לקוחות אחרונים&lt;/h2&gt;</value>
                 </componentInstanceProperties>
                 <componentName>flexipage:richText</componentName>
@@ -28,7 +28,7 @@
         <itemInstances>
             <componentInstance>
                 <componentInstanceProperties>
-                    <name>value</name>
+                    <name>richTextValue</name>
                     <value>&lt;h2&gt;פניות אחרונות&lt;/h2&gt;</value>
                 </componentInstanceProperties>
                 <componentName>flexipage:richText</componentName>
@@ -55,7 +55,7 @@
         <itemInstances>
             <componentInstance>
                 <componentInstanceProperties>
-                    <name>value</name>
+                    <name>richTextValue</name>
                     <value>&lt;h2&gt;לידים אחרונים&lt;/h2&gt;</value>
                 </componentInstanceProperties>
                 <componentName>flexipage:richText</componentName>
