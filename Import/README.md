@@ -102,9 +102,9 @@ The importer does not guess a Profile or license, does not overwrite existing Us
 The delete script selects candidates by the keys and source fields in the four CSV files. It does not touch Users. It prints matched counts before any changes and requires both `--apply` and the exact target Salesforce Org ID for deletion. **Matching CSV values alone cannot prove provenance**: inspect the dry run and related records before authorizing deletion. Salesforce may cascade deletions to other dependent records.
 
 ```powershell
-python Import\Scripts\delete_imported_data.py --target-org SalesforceDev
+python Import\Tools\delete_imported_data.py --target-org SalesforceDev
 # ONLY AFTER REVIEW AND EXPLICIT APPROVAL:
-python Import\Scripts\delete_imported_data.py --target-org SalesforceDev --apply --confirm-org-id YOUR_ORG_ID
+python Import\Tools\delete_imported_data.py --target-org SalesforceDev --apply --confirm-org-id YOUR_ORG_ID
 ```
 
 Re-import in dependency order, first dry-run each script and then run it with `--apply`:
@@ -123,7 +123,11 @@ Re-run each importer without `--apply` to verify all 100 source keys already exi
 Run the read-only inspector before creating Users:
 
 ```powershell
-python Import\Scripts\inspect_users_schema.py --target-org SalesforceDev
+python Import\Tools\inspect_users_schema.py --target-org SalesforceDev
 ```
 
 The User importer checks CSV fields against the live User object description, validates picklist values and lengths, and checks available licenses for the selected Profile before creating active Users. Salesforce may still apply additional org-specific rules. The CSV template is a header-only example; no User records have been generated or imported. Do not run User import before selecting the intended Profile and preparing real or synthetic data with suitable email addresses.
+
+## Script placement
+
+`Import/Scripts/` contains operational import scripts and their shared runtime modules. `Import/Tools/` contains manual inspection and maintenance utilities, which are not part of the routine import flow. Do not place one-off diagnostics in `Scripts/`.
