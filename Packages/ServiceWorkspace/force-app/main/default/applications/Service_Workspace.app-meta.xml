@@ -1,13 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomApplication xmlns="http://soap.sforce.com/2006/04/metadata">
-    <actionOverrides>
-        <actionName>View</actionName>
-        <content>Service_Representative_Home</content>
-        <formFactor>Large</formFactor>
-        <pageOrSobjectType>standard-home</pageOrSobjectType>
-        <type>Flexipage</type>
-    </actionOverrides>
-    <description>Service representative Lightning application with an app-scoped Home page.</description>
+    <description>Service representative Lightning application for validating standard navigation before adding a Home override.</description>
     <formFactors>Large</formFactors>
     <label>Service Workspace</label>
     <navType>Standard</navType>
