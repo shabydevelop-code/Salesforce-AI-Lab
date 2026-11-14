@@ -32,7 +32,8 @@ $apps | Where-Object { $_.fullName -eq 'standard__Service' } | Format-List fullN
 
 Write-Host '=== Service app metadata retrieval (read-only in Salesforce) ==='
 Write-Host 'Retrieving the Service application metadata into the local project for inspection.'
-& sf project retrieve start --metadata 'CustomApplication:standard__Service' --target-org $org
+$targetDir = 'Packages/ServiceWorkspace/force-app'
+& sf project retrieve start --metadata 'CustomApplication:standard__Service' --target-org $org --output-dir $targetDir
 if ($LASTEXITCODE -ne 0) {
     Write-Warning 'Service application retrieval was unsuccessful. The metadata listing above remains valid.'
 }
