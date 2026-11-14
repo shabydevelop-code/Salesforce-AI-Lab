@@ -6,6 +6,7 @@ No Users are touched. Inspect dry run before --apply and --confirm-org-id.
 import argparse
 import sys
 import urllib.error
+import urllib.parse
 
 from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / 'Scripts'))
@@ -75,13 +76,21 @@ def main():
         print('DRY RUN: no records deleted. Review counts and org identity before applying.')
         print('WARNING: Salesforce may cascade-delete dependent records. Inspect related data first.')
         return
-    print('WARNING: deleting matched records in dependency order; Salesforce deletion may cascade.')
+    print('WARNING: deleting matched records in dependency order using Salesforce collection batches; Salesforce deletion may cascade.')
     counts = {}
     for kind in ORDER:
         counts[kind] = 0
-        for _, record in plan[kind]:
-            sf.request('DELETE', f'sobjects/{kind}/{record["Id"]}')
-            counts[kind] += 1
+        ids = [record['Id'] for _, record in plan[kind]]
+        for offset in range(0, len(ids), 200):
+            batch = ids[offset:offset + 200]
+            params = urllib.parse.urlencode({'ids': ','.join(batch), 'allOrNone': 'true'})
+            results = sf.request('DELETE', 'composite/sobjects?' + params)
+            if not isinstance(results, list) or len(results) != len(batch):
+                fail(f'{kind}: unexpected collection delete response; verify Salesforce before retrying')
+            failures = [item for item in results if not item.get('success')]
+            if failures:
+                fail(f'{kind}: collection delete returned {len(failures)} failures; verify Salesforce before retrying: {failures[:2]}')
+            counts[kind] += len(batch)
         print(f'{kind}: deleted {counts[kind]}')
     print('Deletion completed:', counts)
 
