@@ -85,7 +85,7 @@ Append `--apply` only after reviewing the dry run. Import Accounts before Contac
 
 ### Users for Task Assigned To > People
 
-Create `Import/Data/Users.csv` based on the committed `Users.example.csv` header. Required fields: `Username`, `Email`, `LastName`, `Alias`, `CommunityNickname`; `FirstName` is optional. Usernames must be globally unique across Salesforce orgs. Do not put passwords in the CSV.
+Create `Import/Data/Users.csv` based on the committed `Import/Templates/Users.example.csv` header. Required fields: `Username`, `Email`, `LastName`, `Alias`, `CommunityNickname`; `FirstName` is optional. Usernames must be globally unique across Salesforce orgs. Do not put passwords in the CSV.
 
 First select a valid Profile ID in the **target** development org:
 
@@ -131,3 +131,7 @@ The User importer checks CSV fields against the live User object description, va
 ## Script placement
 
 `Import/Scripts/` contains operational import scripts and their shared runtime modules. `Import/Tools/` contains manual inspection and maintenance utilities, which are not part of the routine import flow. Do not place one-off diagnostics in `Scripts/`.
+
+## Data placement
+
+`Import/Data/` contains only CSV datasets intended for actual import. `Import/Templates/` contains example CSV schemas and blank templates; never place example files in `Data/`.
