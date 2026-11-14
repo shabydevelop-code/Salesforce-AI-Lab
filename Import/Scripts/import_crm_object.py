@@ -1,4 +1,4 @@
-"""Independent CRM object import, using the same safety rules as import_all.py."""
+"""Independent CRM object import, using the same safety rules as the original CRM importer."""
 import argparse
 from salesforce_client import Salesforce, fail
 from import_common import load, lookup, single, clean, norm
