@@ -6,6 +6,9 @@
       "package": "IVR Account Redirect",
       "versionName": "Version 1.0",
       "versionNumber": "1.0.0.NEXT"
+    },
+    {
+      "path": "Packages/ServiceWorkspace/force-app"
     }
   ],
   "name": "Salesforce-AI-Lab",
