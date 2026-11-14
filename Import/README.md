@@ -8,13 +8,13 @@ Run from the repository root:
 
 ```powershell
 cd C:\yossi\ChatGpt\Salesforce-AI-Lab
-python Import\Scripts\import_all.py --target-org SalesforceDev
+python Import\Scripts\import_accounts.py --target-org SalesforceDev
 ```
 
 The command above runs in dry-run mode (no writes). To perform an import **only after reviewing the target org and dry-run output**:
 
 ```powershell
-python Import\Scripts\import_all.py --target-org SalesforceDev --apply
+python Import\Scripts\import_accounts.py --target-org SalesforceDev --apply
 ```
 
 Check the Salesforce CLI connection and org identity:
@@ -26,7 +26,7 @@ sf org display --target-org SalesforceDev
 Validate Python syntax after editing:
 
 ```powershell
-python -m py_compile Import\Scripts\import_all.py
+python -m py_compile Import\Scripts\import_accounts.py
 ```
 
 ## Errors encountered and fixes
@@ -72,7 +72,7 @@ If Git reports local changes or untracked-file conflicts, inspect them before pu
 
 ## Modular import commands
 
-`salesforce_client.py` contains the shared Salesforce CLI and REST/SOQL client. The existing `import_all.py` remains backward-compatible and imports the four CRM objects only (not Users). Individual object importers share `import_crm_object.py`.
+`salesforce_client.py` contains the shared Salesforce CLI and REST/SOQL client. Each CRM object has an independent importer; they share `import_crm_object.py` and `import_common.py`. There is no combined importer. Users require explicit Profile selection.
 
 ```powershell
 python Import\Scripts\import_accounts.py --target-org SalesforceDev
@@ -95,4 +95,25 @@ python Import\Scripts\import_users.py --target-org SalesforceDev --profile-id PR
 python Import\Scripts\import_users.py --target-org SalesforceDev --profile-id PROFILE_ID --apply
 ```
 
-The importer does not guess a Profile or license, does not overwrite existing Users, rejects mismatched or inactive existing Users, and defaults to dry run. Salesforce Developer Edition still enforces its own User limits. User creation may trigger Salesforce email notifications. Existing `import_all.py` does not invoke this importer because it requires explicit Profile selection.
+The importer does not guess a Profile or license, does not overwrite existing Users, rejects mismatched or inactive existing Users, and defaults to dry run. Salesforce Developer Edition still enforces its own User limits. User creation may trigger Salesforce email notifications. User import is separate because it requires explicit Profile selection.
+
+## Resetting the existing CRM demo dataset
+
+The delete script selects candidates by the keys and source fields in the four CSV files. It does not touch Users. It prints matched counts before any changes and requires both `--apply` and the exact target Salesforce Org ID for deletion. **Matching CSV values alone cannot prove provenance**: inspect the dry run and related records before authorizing deletion. Salesforce may cascade deletions to other dependent records.
+
+```powershell
+python Import\Scripts\delete_imported_data.py --target-org SalesforceDev
+# ONLY AFTER REVIEW AND EXPLICIT APPROVAL:
+python Import\Scripts\delete_imported_data.py --target-org SalesforceDev --apply --confirm-org-id YOUR_ORG_ID
+```
+
+Re-import in dependency order, first dry-run each script and then run it with `--apply`:
+
+```powershell
+python Import\Scripts\import_accounts.py --target-org SalesforceDev --apply
+python Import\Scripts\import_contacts.py --target-org SalesforceDev --apply
+python Import\Scripts\import_leads.py --target-org SalesforceDev --apply
+python Import\Scripts\import_opportunities.py --target-org SalesforceDev --apply
+```
+
+Re-run each importer without `--apply` to verify all 100 source keys already exist. Do not begin new object imports until the reset and verification are complete.
