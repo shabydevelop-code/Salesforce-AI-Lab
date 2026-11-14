@@ -25,11 +25,23 @@ Apply the following order:
 
 Enabling Hebrew as an available end-user language and selecting it in the user's Language settings allowed Salesforce to display Hebrew UI and right-to-left layout. Checking the supported configuration first avoided unnecessary translation and RTL code.
 
+## CLI First — Mandatory Execution Rule
+
+Prefer Salesforce CLI or supported APIs over manual Salesforce UI actions whenever practical.
+
+- Check CLI, Metadata API, Tooling API, and supported automation options before recommending UI steps.
+- Store repeatable scripts and metadata in GitHub on the **main** branch as the source of truth.
+- The assistant commits GitHub changes; the user runs `git pull --ff-only origin main` and executes commands locally in PowerShell.
+- Validate before deploying when supported. Never claim deployment or activation without a confirmed result.
+- Use the Salesforce UI only when automation is impractical or visual inspection is required.
+- Keep scripts compatible with Windows PowerShell.
+- CLI First complements and does not override OOTB First.
+
 ## Hebrew UI Guidance — Mandatory Communication Rule
 
 When guiding the user through Salesforce screens, menus, buttons, settings, or navigation, use the **Hebrew labels displayed in the Salesforce UI** and write the guidance in Hebrew (RTL). Do not default to English menu paths now that the user's Salesforce interface is in Hebrew.
 
-- When a label's exact Hebrew translation is uncertain, explicitly indicate the uncertainty; optionally include the original English label in parentheses to help locate it.
+- When a label's exact Hebrew translation is uncertain, explicitly indicate the uncertainty; optionally include the original English label (in parentheses) to help locate it.
 - Keep technical identifiers, API names, CLI commands, and source-code symbols in their original language.
 - Prefer navigation instructions matching the user's current Salesforce UI over generic English documentation paths.
 
