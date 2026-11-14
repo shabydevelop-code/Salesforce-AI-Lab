@@ -24,7 +24,7 @@ def main():
         if f.get('createable') and not f.get('nillable') and not f.get('defaultedOnCreate'):
             print(f"  {f['name']} | type={f.get('type')} | length={f.get('length')}")
     print('\nCSV TEMPLATE FIELDS:')
-    for name in ('Username', 'Email', 'FirstName', 'LastName', 'Alias',
+    for name in ('Username', 'Email', 'FirstName', 'LastName', 'Alias', 'CommunityNickname',
                  'TimeZoneSidKey', 'LocaleSidKey', 'EmailEncodingKey',
                  'LanguageLocaleKey', 'ProfileId', 'IsActive'):
         f = by_name.get(name)
@@ -39,7 +39,10 @@ def main():
     for p in sf.query('SELECT Id, Name, UserLicense.Name FROM Profile ORDER BY Name'):
         license_info = p.get('UserLicense') or {}
         print(f"  {p['Id']} | {p['Name']} | license={license_info.get('Name')}")
-    print('\nACTIVE USER COUNTS BY PROFILE:')
+    print('\\nLICENSE CAPACITY:')
+    for lic in sf.query('SELECT Id, Name, TotalLicenses, UsedLicenses FROM UserLicense ORDER BY Name'):
+        print(f"  {lic['Name']}: total={lic['TotalLicenses']} used={lic['UsedLicenses']} available={lic['TotalLicenses'] - lic['UsedLicenses']}")
+    print('\\nACTIVE USER COUNTS BY PROFILE:')
     counts = {}
     for u in sf.query('SELECT ProfileId, IsActive FROM User'):
         if u.get('IsActive'):
