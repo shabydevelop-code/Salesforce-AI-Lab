@@ -25,4 +25,12 @@ Apply the following order:
 
 Enabling Hebrew as an available end-user language and selecting it in the user's Language settings allowed Salesforce to display Hebrew UI and right-to-left layout. Checking the supported configuration first avoided unnecessary translation and RTL code.
 
-This document records stable architecture rules, not implementation status or release progress.
+## Hebrew UI Guidance — Mandatory Communication Rule
+
+When guiding the user through Salesforce screens, menus, buttons, settings, or navigation, use the **Hebrew labels displayed in the Salesforce UI** and write the guidance in Hebrew (RTL). Do not default to English menu paths now that the user's Salesforce interface is in Hebrew.
+
+- When a label's exact Hebrew translation is uncertain, explicitly indicate the uncertainty; optionally include the original English label in parentheses to help locate it.
+- Keep technical identifiers, API names, CLI commands, and source-code symbols in their original language.
+- Prefer navigation instructions matching the user's current Salesforce UI over generic English documentation paths.
+
+This document records stable architecture and collaboration rules, not implementation status or release progress.
