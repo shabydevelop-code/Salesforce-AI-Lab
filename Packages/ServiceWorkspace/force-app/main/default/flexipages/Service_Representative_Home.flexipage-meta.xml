@@ -1,18 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <FlexiPage xmlns="http://soap.sforce.com/2006/04/metadata">
-    <description>Service representative home with compact, titled recent Account, Lead, and Case lists in two columns. Owner-filtered lists and Tasks are not yet configured.</description>
+    <description>Service representative home with standard recent Account, Lead, and Case lists (5 each) in two columns. Owner-filtered lists and Tasks are not yet configured.</description>
     <flexiPageRegions>
-        <itemInstances>
-            <componentInstance>
-                <componentInstanceProperties>
-                    <name>richTextValue</name>
-                    <value>&lt;h2&gt;לקוחות אחרונים&lt;/h2&gt;</value>
-                </componentInstanceProperties>
-                <componentName>flexipage:richText</componentName>
-                <identifier>headingrecentAccounts</identifier>
-            </componentInstance>
-        </itemInstances>
-        <itemInstances>
+<itemInstances>
             <componentInstance>
                 <componentInstanceProperties>
                     <name>entityNames</name>
@@ -25,17 +15,7 @@
                 <identifier>recentAccounts</identifier>
             </componentInstance>
         </itemInstances>
-        <itemInstances>
-            <componentInstance>
-                <componentInstanceProperties>
-                    <name>richTextValue</name>
-                    <value>&lt;h2&gt;פניות אחרונות&lt;/h2&gt;</value>
-                </componentInstanceProperties>
-                <componentName>flexipage:richText</componentName>
-                <identifier>headingrecentCases</identifier>
-            </componentInstance>
-        </itemInstances>
-        <itemInstances>
+<itemInstances>
             <componentInstance>
                 <componentInstanceProperties>
                     <name>entityNames</name>
@@ -52,17 +32,7 @@
         <type>Region</type>
     </flexiPageRegions>
     <flexiPageRegions>
-        <itemInstances>
-            <componentInstance>
-                <componentInstanceProperties>
-                    <name>richTextValue</name>
-                    <value>&lt;h2&gt;לידים אחרונים&lt;/h2&gt;</value>
-                </componentInstanceProperties>
-                <componentName>flexipage:richText</componentName>
-                <identifier>headingrecentLeads</identifier>
-            </componentInstance>
-        </itemInstances>
-        <itemInstances>
+<itemInstances>
             <componentInstance>
                 <componentInstanceProperties>
                     <name>entityNames</name>
