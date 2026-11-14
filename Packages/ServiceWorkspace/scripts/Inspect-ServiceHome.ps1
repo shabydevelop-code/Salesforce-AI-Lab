@@ -31,8 +31,8 @@ Write-Host '=== Service application metadata ==='
 $apps | Where-Object { $_.fullName -eq 'standard__Service' } | Format-List fullName, fileName, namespacePrefix
 
 Write-Host '=== Service app metadata retrieval (read-only in Salesforce) ==='
-Write-Host 'Retrieving the Service application metadata into the local project for inspection.'
-$targetDir = 'Packages/ServiceWorkspace/force-app'
+Write-Host 'Retrieving the Service application metadata into an isolated staging directory for inspection.'
+$targetDir = 'Packages/ServiceWorkspace/retrieved-metadata'
 if (-not (Test-Path -LiteralPath $targetDir -PathType Container)) {
     New-Item -ItemType Directory -Path $targetDir -Force | Out-Null
 }
@@ -40,5 +40,5 @@ if (-not (Test-Path -LiteralPath $targetDir -PathType Container)) {
 if ($LASTEXITCODE -ne 0) {
     Write-Warning 'Service application retrieval was unsuccessful. The metadata listing above remains valid.'
 }
-Write-Host 'Inspect retrieved application metadata locally before editing or deploying.'
+Write-Host 'Inspect staged metadata locally before editing or deploying. Nothing was deployed.'
 
