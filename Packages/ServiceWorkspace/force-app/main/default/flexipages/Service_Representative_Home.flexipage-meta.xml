@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <FlexiPage xmlns="http://soap.sforce.com/2006/04/metadata">
-    <description>Service representative home with standard list view cards: RecentlyViewedAccounts, Service_My_Leads, and MyOpenCases across three native desktop regions (left, right, sidebar). OpenTasks uses Salesforce's built-in mine scope, excludes closed and recurring tasks, and limits due dates to the last 30 days onward.</description>
+    <description>Service home with standard Account, Lead, Case, and OpenTasks list view cards.</description>
     <flexiPageRegions>
         <itemInstances>
             <componentInstance>
