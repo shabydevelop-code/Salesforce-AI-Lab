@@ -44,12 +44,14 @@ class Salesforce:
             fail('Missing instanceUrl or accessToken; authorize org with sf org login web')
         self.base = self.url + '/services/data/v60.0/'
 
-    def request(self, method, path, body=None):
+    def request(self, method, path, body=None, headers=None):
         data = json.dumps(body, ensure_ascii=False).encode('utf-8') if body is not None else None
+        request_headers = {'Authorization': 'Bearer ' + self.token,
+                           'Content-Type': 'application/json;charset=UTF-8'}
+        if headers:
+            request_headers.update(headers)
         req = urllib.request.Request(
-            self.base + path, data=data, method=method,
-            headers={'Authorization': 'Bearer ' + self.token,
-                     'Content-Type': 'application/json;charset=UTF-8'})
+            self.base + path, data=data, method=method, headers=request_headers)
         try:
             with urllib.request.urlopen(req, timeout=20) as response:
                 raw = response.read()
@@ -68,8 +70,9 @@ class Salesforce:
             path = next_url.split('/services/data/v60.0/', 1)[-1] if next_url else None
         return result
 
-    def create(self, kind, values):
-        result = self.request('POST', f'sobjects/{kind}', values)
+    def create(self, kind, values, allow_duplicate_save=False):
+        headers = {'Sforce-Duplicate-Rule-Header': 'allowSave=true'} if allow_duplicate_save else None
+        result = self.request('POST', f'sobjects/{kind}', values, headers=headers)
         if not result.get('success') or not result.get('id'):
             fail(f'{kind} create failed: {result}')
         return result['id']
