@@ -15,14 +15,14 @@ function Get-MetadataMembers([string]$type) {
 Write-Host '=== Lightning Home page candidates (FlexiPage) ==='
 $pages = @(Get-MetadataMembers 'FlexiPage')
 $pages | Where-Object {
-    $_.fullName -match 'Home|Service|Console|בית|שירות' -or $_.fileName -match 'Home|Service|Console'
+    $_.fullName -match 'Home|Service|Console' -or $_.fileName -match 'Home|Service|Console'
 } | Select-Object fullName, fileName | Format-Table -AutoSize
 Write-Host "Total FlexiPages in org: $($pages.Count)"
 
 Write-Host '=== Service application candidates (CustomApplication) ==='
 $apps = @(Get-MetadataMembers 'CustomApplication')
 $apps | Where-Object {
-    $_.fullName -match 'Service|Console|שירות|standard__Service'
+    $_.fullName -match 'Service|Console|standard__Service'
 } | Select-Object fullName, fileName | Format-Table -AutoSize
 Write-Host "Total applications in org: $($apps.Count)"
 Write-Host 'Read-only inspection complete. No metadata was changed.'
