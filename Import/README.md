@@ -85,7 +85,7 @@ Append `--apply` only after reviewing the dry run. Import Accounts before Contac
 
 ### Users for Task Assigned To > People
 
-Create `Import/Data/Users.csv` based on the committed `Users.example.csv` header. Required fields: `Username`, `Email`, `LastName`, `Alias`; `FirstName` is optional. Usernames must be globally unique across Salesforce orgs. Do not put passwords in the CSV.
+Create `Import/Data/Users.csv` based on the committed `Users.example.csv` header. Required fields: `Username`, `Email`, `LastName`, `Alias`, `CommunityNickname`; `FirstName` is optional. Usernames must be globally unique across Salesforce orgs. Do not put passwords in the CSV.
 
 First select a valid Profile ID in the **target** development org:
 
@@ -117,3 +117,13 @@ python Import\Scripts\import_opportunities.py --target-org SalesforceDev --apply
 ```
 
 Re-run each importer without `--apply` to verify all 100 source keys already exist. Do not begin new object imports until the reset and verification are complete.
+
+## Validate User schema and available licenses
+
+Run the read-only inspector before creating Users:
+
+```powershell
+python Import\Scripts\inspect_users_schema.py --target-org SalesforceDev
+```
+
+The User importer checks CSV fields against the live User object description, validates picklist values and lengths, and checks available licenses for the selected Profile before creating active Users. Salesforce may still apply additional org-specific rules. The CSV template is a header-only example; no User records have been generated or imported. Do not run User import before selecting the intended Profile and preparing real or synthetic data with suitable email addresses.
