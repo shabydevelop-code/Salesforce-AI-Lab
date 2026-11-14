@@ -1,0 +1,15 @@
+{
+  "packageDirectories": [
+    {
+      "path": "Packages/IVR-AccountRedirect/force-app",
+      "default": true,
+      "package": "IVR Account Redirect",
+      "versionName": "Version 1.0",
+      "versionNumber": "1.0.0.NEXT"
+    }
+  ],
+  "name": "Salesforce-AI-Lab",
+  "namespace": "",
+  "sfdcLoginUrl": "https://login.salesforce.com",
+  "sourceApiVersion": "65.0"
+}
