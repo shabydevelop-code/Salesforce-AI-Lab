@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <FlexiPage xmlns="http://soap.sforce.com/2006/04/metadata">
-    <description>Service representative home with standard list view cards: MyAccounts, Service_My_Leads, and MyOpenCases across three native desktop regions (left, right, sidebar). Tasks are not yet configured.</description>
+    <description>Service representative home with standard list view cards: RecentlyViewedAccounts, Service_My_Leads, and MyOpenCases across three native desktop regions (left, right, sidebar). Tasks are not yet configured.</description>
     <flexiPageRegions>
         <itemInstances>
             <componentInstance>
                 <componentInstanceProperties><name>entityName</name><value>Account</value></componentInstanceProperties>
-                <componentInstanceProperties><name>filterName</name><value>MyAccounts</value></componentInstanceProperties>
+                <componentInstanceProperties><name>filterName</name><value>RecentlyViewedAccounts</value></componentInstanceProperties>
                 <componentName>flexipage:filterListCard</componentName>
                 <identifier>recentAccounts</identifier>
             </componentInstance>
