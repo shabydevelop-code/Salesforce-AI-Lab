@@ -1,8 +1,7 @@
 """Shared CSV loading, matching and normalization for CRM imports."""
 import csv
-from pathlib import Path
-
 from salesforce_client import fail
+from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1] / 'Data'
 FILES = [('Account', 'Accounts.csv', 'AccountNumber'),
@@ -10,9 +9,6 @@ FILES = [('Account', 'Accounts.csv', 'AccountNumber'),
          ('Lead', 'Leads.csv', 'Email'),
          ('Opportunity', 'Opportunities.csv', 'Name')]
 
-
-def fail(message):
-    raise RuntimeError(message)
 
 
 def load(name, key):
