@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <FlexiPage xmlns="http://soap.sforce.com/2006/04/metadata">
-    <description>Service representative workspace. Service representative workspace: recently viewed Accounts, Leads, and Cases. Owner-filtered lists and Tasks are not yet configured.</description>
+    <description>Service representative workspace: recently viewed Accounts, Leads, and Cases. Owner-filtered lists and Tasks are not yet configured.</description>
     <flexiPageRegions>
         <itemInstances>
             <componentInstance>
@@ -59,7 +59,7 @@
         <name>bottomLeft</name>
         <type>Region</type>
     </flexiPageRegions>
-    <masterLabel>Service Representative Home</masterLabel>
+    <masterLabel>דף הבית לנציג שירות</masterLabel>
     <template>
         <name>home:desktopTemplate</name>
     </template>
