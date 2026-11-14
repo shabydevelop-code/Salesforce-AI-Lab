@@ -7,9 +7,9 @@ import argparse
 import sys
 import urllib.error
 
-from import_common import FILES, load, norm, single
 from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / 'Scripts'))
+from import_common import FILES, load, norm, single
 from salesforce_client import Salesforce, fail
 
 ORDER = ('Opportunity', 'Contact', 'Lead', 'Account')
