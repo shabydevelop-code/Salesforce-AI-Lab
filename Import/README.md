@@ -99,7 +99,7 @@ The importer does not guess a Profile or license, does not overwrite existing Us
 
 ## Resetting the existing CRM demo dataset
 
-The delete script selects candidates by the keys and source fields in the four CSV files. It does not touch Users. It prints matched counts before any changes and requires both `--apply` and the exact target Salesforce Org ID for deletion. **Matching CSV values alone cannot prove provenance**: inspect the dry run and related records before authorizing deletion. Salesforce may cascade deletions to other dependent records.
+The delete script uses Salesforce sObject Collections batch DELETE (up to 200 IDs per request), not Bulk API 2.0 jobs. It selects candidates by the keys and source fields in the four CSV files. It does not touch Users. It stops if a batch reports failures; after an interrupted or failed run, inspect a new dry run before retrying. It prints matched counts before any changes and requires both `--apply` and the exact target Salesforce Org ID for deletion. **Matching CSV values alone cannot prove provenance**: inspect the dry run and related records before authorizing deletion. Salesforce may cascade deletions to other dependent records.
 
 ```powershell
 python Import\Tools\delete_imported_data.py --target-org SalesforceDev
