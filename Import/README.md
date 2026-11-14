@@ -135,3 +135,14 @@ The User importer checks CSV fields against the live User object description, va
 ## Data placement
 
 `Import/Data/` contains only CSV datasets intended for actual import. `Import/Templates/` contains example CSV schemas and blank templates; never place example files in `Data/`.
+
+## PowerShell script lifecycle and paste safety
+
+- Do not provide multi-line PowerShell command sequences for direct paste into the user's console: direct paste from ChatGPT has executed lines in reverse order. Single commands are acceptable.
+- When multiple ordered commands are necessary, prefer one reusable, fail-fast `.ps1` runner committed to GitHub `main`, which the user retrieves with a single `git pull --ff-only origin main` and runs with one command.
+- Reuse or extend an existing operational script where appropriate; do not create a new `.ps1` for every task.
+- Keep scripts with ongoing operational value in their relevant permanent directory (for example `Import/Scripts/Import-All.ps1`).
+- Treat one-off scripts as temporary. If a temporary script must be committed, isolate it from operational scripts, identify it as temporary, and propose removal after its purpose is complete. Do not create a `Temp` directory unless actually needed.
+- Never delete or replace a retained operational script without the user's approval. Obtain approval before deleting a temporary script from the repository as well.
+- Scripts that change Salesforce data must require an explicit apply action, stop immediately on errors, and preserve dependency order.
+- Keep this document focused on stable commands and troubleshooting rules, not project progress or completion status.
