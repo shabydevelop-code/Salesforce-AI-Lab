@@ -13,6 +13,12 @@ New-Item -ItemType Directory -Path $staging -Force | Out-Null
 & sf project retrieve start --metadata 'CustomApplication:standard__Service' --target-org $org --output-dir $staging
 if ($LASTEXITCODE -ne 0) { throw 'Could not retrieve the current Service application. Nothing was changed.' }
 $source = Get-ChildItem -LiteralPath $staging -Recurse -Filter 'standard__Service.app-meta.xml' -File | Select-Object -First 1
+# The standard Service app cannot accept Flexipage Home action overrides.
+# Do not generate invalid metadata or alter the standard application.
+if (Test-Path -LiteralPath $destination) {
+    Write-Warning "Previously generated activation metadata exists: $destination. Do not deploy it."
+}
+throw 'Unsupported target: standard__Service is a standard app. Flexipage Home overrides require a Lightning app. No metadata was generated or deployed. Use a custom Lightning app or another supported assignment method.'
 if (-not $source) { throw 'Retrieved Service application XML not found. Nothing was changed.' }
 [xml]$doc = Get-Content -LiteralPath $source.FullName -Raw -Encoding UTF8
 $ns = $doc.DocumentElement.NamespaceURI
