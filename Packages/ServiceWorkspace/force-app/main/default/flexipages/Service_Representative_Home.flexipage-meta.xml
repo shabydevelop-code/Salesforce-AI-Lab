@@ -6,7 +6,11 @@
             <componentInstance>
                 <componentInstanceProperties>
                     <name>entityNames</name>
-                    <value>Account</value>
+                    <valueList>
+                        <valueListItems>
+                            <value>Account</value>
+                        </valueListItems>
+                    </valueList>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>maxRecords</name>
