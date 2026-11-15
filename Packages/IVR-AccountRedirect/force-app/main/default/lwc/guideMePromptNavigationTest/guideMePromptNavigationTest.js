@@ -27,10 +27,8 @@ export default class GuideMePromptNavigationTest extends NavigationMixin(Lightni
         try {
             this.generatedUrl = await this[NavigationMixin.GenerateUrl](pageReference);
             this.status = this.generatedUrl.includes('promptId')
-                ? 'Generated URL contains promptId; navigating'
-                : 'Generated URL does NOT contain promptId; navigating';
-            // Keep the existing navigation behavior for a direct comparison.
-            this[NavigationMixin.Navigate](pageReference);
+                ? 'Generated URL contains promptId'
+                : 'Generated URL does NOT contain promptId';
         } catch (error) {
             this.status = 'GenerateUrl failed: ' + (error?.message || String(error));
         }
