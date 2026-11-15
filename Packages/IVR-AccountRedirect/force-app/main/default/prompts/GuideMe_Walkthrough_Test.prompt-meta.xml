@@ -30,7 +30,6 @@
         <dismissButtonLabel>Dismiss</dismissButtonLabel>
         <displayType>Targeted</displayType>
         <experience>Lightning</experience>
-        <isPublished>true</isPublished>
         <masterLabel>GuideMe_Walkthrough_Test</masterLabel>
         <referenceElementContext>{&quot;scope&quot;:{&quot;scope&quot;:{&quot;scope&quot;:{&quot;attributes&quot;:{&quot;id&quot;:&quot;sfdc:RecordField.Contact.Phone&quot;}},&quot;attributes&quot;:{&quot;id&quot;:&quot;e749965136cc4d4d9fc02c6f9c4a08b7&quot;}},&quot;attributes&quot;:{&quot;id&quot;:&quot;force_detailPanel&quot;}},&quot;version&quot;:2,&quot;interactions&quot;:[{&quot;unless&quot;:{&quot;css&quot;:&quot;[aria-selected=true]&quot;},&quot;scope&quot;:{&quot;scope&quot;:{&quot;attributes&quot;:{&quot;id&quot;:&quot;detailTabTab&quot;}},&quot;attributes&quot;:{&quot;id&quot;:&quot;flexipage_tabset&quot;}},&quot;type&quot;:&quot;click&quot;}]}</referenceElementContext>
         <shouldDisplayActionButton>false</shouldDisplayActionButton>
