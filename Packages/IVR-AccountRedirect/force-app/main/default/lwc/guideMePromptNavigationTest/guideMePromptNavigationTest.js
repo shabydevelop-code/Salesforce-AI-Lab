@@ -26,11 +26,11 @@ export default class GuideMePromptNavigationTest extends NavigationMixin(Lightni
 
         try {
             this.generatedUrl = await this[NavigationMixin.GenerateUrl](recordPage);
-            this.status = 'Navigating with standard__webPage';
+            this.status = 'Navigating via standard__webPage with replace=true';
             this[NavigationMixin.Navigate]({
                 type: 'standard__webPage',
                 attributes: { url: this.generatedUrl }
-            });
+            }, true);
         } catch (error) {
             this.status = 'Navigation failed: ' + (error?.message || String(error));
         }
