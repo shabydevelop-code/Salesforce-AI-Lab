@@ -5,6 +5,7 @@
         <body>&lt;p&gt;Step 1: Find the Phone field on this Contact.&lt;/p&gt;</body>
         <customApplication>standard__LightningSales</customApplication>
         <delayDays>1</delayDays>
+        <dismissButtonLabel>Dismiss</dismissButtonLabel>
         <displayType>Targeted</displayType>
         <experience>Lightning</experience>
         <isPublished>true</isPublished>
@@ -26,6 +27,7 @@
     <promptVersions>
         <body>&lt;p&gt;Step 2: This is the second native walkthrough step. Confirm it appears without a page reload.&lt;/p&gt;</body>
         <customApplication>standard__LightningSales</customApplication>
+        <dismissButtonLabel>Dismiss</dismissButtonLabel>
         <displayType>Targeted</displayType>
         <experience>Lightning</experience>
         <isPublished>true</isPublished>
