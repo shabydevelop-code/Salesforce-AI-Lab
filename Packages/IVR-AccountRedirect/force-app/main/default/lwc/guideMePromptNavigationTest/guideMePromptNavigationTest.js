@@ -12,7 +12,7 @@ export default class GuideMePromptNavigationTest extends NavigationMixin(Lightni
             return;
         }
 
-        const pageReference = {
+        const recordPage = {
             type: 'standard__recordPage',
             attributes: {
                 recordId: this.recordId,
@@ -25,12 +25,14 @@ export default class GuideMePromptNavigationTest extends NavigationMixin(Lightni
         };
 
         try {
-            this.generatedUrl = await this[NavigationMixin.GenerateUrl](pageReference);
-            this.status = this.generatedUrl.includes('promptId')
-                ? 'Generated URL contains promptId'
-                : 'Generated URL does NOT contain promptId';
+            this.generatedUrl = await this[NavigationMixin.GenerateUrl](recordPage);
+            this.status = 'Navigating with standard__webPage';
+            this[NavigationMixin.Navigate]({
+                type: 'standard__webPage',
+                attributes: { url: this.generatedUrl }
+            });
         } catch (error) {
-            this.status = 'GenerateUrl failed: ' + (error?.message || String(error));
+            this.status = 'Navigation failed: ' + (error?.message || String(error));
         }
     }
 }
