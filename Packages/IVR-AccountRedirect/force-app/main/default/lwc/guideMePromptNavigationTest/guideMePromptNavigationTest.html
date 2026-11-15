@@ -1,8 +1,9 @@
 <template>
     <lightning-card title="GuideMe Prompt Navigation Test">
         <div class="slds-var-p-around_medium">
-            <lightning-button label="Launch GuideMe Test Phone" variant="brand" onclick={handleLaunch}></lightning-button>
+            <lightning-button label="Inspect Generated URL" variant="brand" onclick={handleLaunch}></lightning-button>
             <p class="slds-var-m-top_small">{status}</p>
+            <p class="slds-var-m-top_small slds-text-body_small">{generatedUrl}</p>
         </div>
     </lightning-card>
 </template>
